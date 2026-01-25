@@ -1,44 +1,51 @@
-# Módulo 1
+# README
 
-* Go é estaticamente tipado: as variáveis devem ter seus tipos definidos em tempo de compilação.
-* `:=` é usado para declarar e inicializar variáveis de forma concisa.
-* Variáveis não utilizadas geram erros de compilação.
-* **Zero values** são atribuídos automaticamente a variáveis não inicializadas (`0` para inteiros, `""` para strings, `false` para booleanos, `nil` para ponteiros, slices, maps, channels e interfaces).
-  * `var classificacao string  // "" (string vazia)`
-  * `var count int            // 0`
-  * `var active bool          // false`
-  * `var ptr *int             // nil`
+Este repositório contém materiais de estudo sobre a linguagem de programação Go (Golang). O objetivo é registar o progresso da aprendizagem dos conceitos fundamentais da linguagem, as suas características e melhores práticas de uso através de módulos organizados e avaliados pelo Claude da Anthropic.
 
-### Tipos básicos
+## [Fase 1: Fundações Sólidas](MOD1.md))
 
-* `int`, `float64`, `string`, `bool`
-* Conversão de tipos é explícita: `float64(x)` converte `x` para `float64`.
-* Strings são imutáveis e suportam concatenação com `+`.
+Sintaxe básica, tipos, estruturas de controlo
+**Por quê:** Go tem idiomas próprios (:=, múltiplos returns, defer) que precisam ser naturais
+**Desafio final:** CLI tool simples
 
-Diferença entre int8, int16, int32, int64:
-* `int8`: -128 a 127 (`byte` é um alias para `int8`)
-* `int16`: -32,768 a 32,767
-* `int32`: -2,147,483,648 a 2,147,483,647 (`rune` é um alias para `int32`, representa um ponto de código Unicode)
-* `int64`: -9,223,372,036,854,775,808 a 9,223,372,036,854,775,807
+## Fase 2: Ponteiros e Memória
 
-Diferença entre float32 e float64:
-* `float32`: precisão simples, 7 dígitos decimais de precisão. Só é usado quando há necessidade de economizar memória. (array grandes, por exemplo)
-* `float64`: precisão dupla, 15-16 dígitos decimais de precisão. Literal padrão para números de ponto flutuante em Go.
+Ponteiros, valores vs referências, quando usar cada um
+**Por quê:** Diferente de Ruby/TS, precisas gerir isto explicitamente
+**Desafio final:** Implementar estrutura de dados própria
 
-```go
-// Módulo 1
+## Fase 3: Structs, Métodos e Interfaces
 
-// Declaração explícita com tipo
-var name string = "Anabela"
-var age int = 38
+OOP em Go, composição vs herança, interfaces implícitas
+**Por quê:** O coração do design em Go - muito diferente de classes
+**Desafio final:** Sistema com múltiplos tipos interagindo
 
-// Declaração com inferência de tipo
-var city = "Porto"
+## Fase 4: Error Handling e Panic
 
-// Short declaration (apenas dentro de funções)
-// country := "Portugal"
+Padrão if err != nil, erros custom, quando panic
+**Por quê:** Sem try/catch - precisas pensar diferente
+**Desafio final:** Função robusta com múltiplos cenários de erro
 
-// constante
-const pi = 3.14
-```
+## Fase 5: Concorrência - Goroutines
 
+Goroutines, channels, select, patterns
+**Por quê:** A killer feature do Go, mas fácil de fazer mal
+**Desafio final:** Worker pool processando tarefas
+
+## Fase 6: Packages e Organização
+
+Estrutura de projeto, módulos, visibilidade, testes
+**Por quê:** Projetos reais precisam de organização adequada
+**Desafio final:** Refatorar código em packages bem estruturados
+
+## Fase 7: Standard Library Essencial
+
+io, net/http, encoding/json, context, testing
+**Por quê:** Go tem stdlib rica - usa-a antes de packages externos
+**Desafio final:** API REST básica sem frameworks
+
+## Fase 8: Projeto Integrador
+
+Aplicar tudo num projeto realista
+**Por quê:** Consolidar conhecimento com algo próximo do mundo real
+**Desafio final:** API completa com testes, concorrência, persistência
