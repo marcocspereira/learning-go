@@ -141,3 +141,73 @@ s3 := make([]string, 5, 10) // len=5, cap=10 (inicializado com zero values)
 * **Use cases para slices:**
   * Quando o tamanho pode variar.
   * Para manipulação dinâmica de coleções de dados.
+
+
+---
+
+## Módulo 1.3: Funções e Múltiplos Retornos
+
+### Características das Funções em Go
+```go
+// Declaração de função simples
+func add(a int, b int) int {
+    return a + b
+}
+sum := add(3, 5) // sum = 8
+
+// Função com parâmetros do mesmo tipo (sintaxe concisa)
+func multiply(a, b int) int {
+    return a * b
+}
+mul := multiply(4, 6) // mul = 24
+
+// Função com múltiplos retornos
+func divideAndRemainder(a, b int) (int, int) {
+    quotient := a / b
+    remainder := a % b
+    return quotient, remainder
+}
+
+// Chamada de função com múltiplos retornos
+q, r := divideAndRemainder(10, 3)
+fmt.Println("Quociente:", q, "Resto:", r) // Output: Quociente: 3 Resto: 1
+
+// Retorno nomeado
+func swap(x, y string) (first string, second string) {
+    first = y
+    second = x
+    return
+}
+s1, s2 := swap("hello", "world")
+fmt.Println(s1, s2) // Output: world hello
+
+// Função variádica (aceita número variável de argumentos)
+func sum(numbers ...int) int {
+    total := 0
+    for _, num := range numbers {
+        total += num
+    }
+    return total
+}
+totalSum := sum(1, 2, 3, 4, 5) // totalSum = 15
+```
+
+### Error Handling
+Em Go, o tratamento de erros é feito retornando um valor de erro como o último retorno da função. Não há exceções como em outras linguagens.
+
+```go
+import "fmt"
+func divide(a, b float64) (float64, error) {
+    if b == 0 {
+        return 0, fmt.Errorf("divisão por zero não é permitida")
+    }
+    return a / b, nil
+}
+
+result, err := divide(10, 0)
+if err != nil {
+    fmt.Println("Erro:", err)
+    return
+}
+fmt.Println("Resultado:", result)
+```
