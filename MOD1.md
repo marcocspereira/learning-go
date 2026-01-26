@@ -1,5 +1,7 @@
 # Módulo 1
 
+## Módulo 1.1: Tipos Básicos e Declarações
+
 * Go é estaticamente tipado: as variáveis devem ter seus tipos definidos em tempo de compilação.
 * `:=` é usado para declarar e inicializar variáveis de forma concisa, logo mais idimática.
 * `var` é usado para declarações explícitas de variáveis, especialmente fora de funções.
@@ -45,3 +47,73 @@ var city = "Porto"
 const pi = 3.14
 ```
 
+---
+
+## Módulo 1.2: Loops e Slices
+
+### Loops
+Em Go, o loop `for` é a única estrutura de repetição. Pode ser usado de várias formas:
+```go
+// Loop tradicional
+for i := 0; i < 10; i++ {
+    fmt.Println(i)
+}
+
+// Loop estilo while (sem inicialização e pós-execução)
+for i < 10 {
+    fmt.Println(i)
+    i++
+}
+
+// Loop infinito
+for {
+    // fazer algo
+    // break para sair do loop
+}
+
+// Iterar sobre slices/arrays
+numbers := []int{1, 2, 3, 4, 5}
+for index, value := range numbers {
+    fmt.Println("Index:", index, "Value:", value)
+}
+
+// Iterar sobre strings (caracteres Unicode)
+str := "Olá"
+for index, char := range str {
+    fmt.Printf("Index: %d, Char: %c\n", index, char)
+}
+
+// Ignorar o índice ou valor
+for _, value := range numbers {
+    fmt.Println("Value:", value)
+}
+```
+
+### Slices vs Arrays
+
+```go
+var arr [5]int = [5]int{1, 2, 3, 4, 5} // Array com tamanho fixo
+
+slice := []int{1, 2, 3, 4, 5} // Slice dinâmico
+slice = append(slice, 6) // Adiciona elemento ao slice
+lenSlice := len(slice) // Obtém o tamanho do slice
+capSlice := cap(slice) // Obtém a capacidade do slice
+numSlice := slice[1:3] // Sub-slice (elementos do índice 1 ao 2, ou seja os valores 2 e 3)
+```
+
+* 99% dos casos, usar slices é preferível devido à sua flexibilidade.
+* Slices são passados por referência, ou seja, alterações numa função afetam o slice original. Exemplo:
+```go
+func modifySlice(s []int) {
+    s[0] = 100
+}
+mySlice := []int{1, 2, 3}
+modifySlice(mySlice)
+fmt.Println(mySlice) // Output: [100, 2, 3]
+```
+* **Use cases para arrays:**
+  * Quando o tamanho é fixo e conhecido em tempo de compilação.
+  * Para otimizações de desempenho em casos específicos (evitar overhead de slices).
+* **Use cases para slices:**
+  * Quando o tamanho pode variar.
+  * Para manipulação dinâmica de coleções de dados.
