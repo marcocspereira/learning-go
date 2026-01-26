@@ -1,4 +1,5 @@
 // Analisador de Temperaturas
+//
 // Cria um programa que:
 
 // Recebe um slice de temperaturas (em Celsius) da semana

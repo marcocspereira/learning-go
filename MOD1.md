@@ -111,6 +111,30 @@ mySlice := []int{1, 2, 3}
 modifySlice(mySlice)
 fmt.Println(mySlice) // Output: [100, 2, 3]
 ```
+* Para iniciar um slice com tamanho e capacidade específicas, usar `make`:
+```go
+// make(tipo, length, capacity)
+s1 := make([]string, 0, 10)   // len=0, cap=10 (vazio mas com espaço reservado)
+s2 := make([]int, 5)          // len=5, cap=5 (inicializado com zero values)
+s3 := make([]string, 5, 10) // len=5, cap=10 (inicializado com zero values)
+```
+* Diferença entre length e capacity:
+  * `len(slice)`: número de elementos atualmente no slice.
+  * `cap(slice)`: número máximo de elementos que o slice pode conter antes de precisar realocar memória.
+
+* Quando usar slice literal vs make:
+  * Usar slice literal (`[]int{1,2,3}`) quando se conhece os valores iniciais.
+  * Usar `make` quando se quer criar um slice vazio com capacidade pré-definida ou quando se quer inicializar com zero values.
+  ```go
+  // Slice literal
+  numbers := []int{1, 2, 3, 4, 5}
+  // // make - quando vais popular depois
+  results := make([]string, 0, 100)  // reserva espaço para evitar realocações
+  for i := 0; i < 100; i++ {
+    results = append(results, processData(i))
+  }
+  ```
+
 * **Use cases para arrays:**
   * Quando o tamanho é fixo e conhecido em tempo de compilação.
   * Para otimizações de desempenho em casos específicos (evitar overhead de slices).
