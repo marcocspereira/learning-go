@@ -47,6 +47,23 @@ var city = "Porto"
 const pi = 3.14
 ```
 
+
+**Rune** vs **byte**:
+* `byte`: alias para `uint8`, representa um único byte de dados (0 a 255). Usado principalmente para manipulação de dados binários e strings em codificação UTF-8. **Quando usar:** para trabalhar com dados brutos, arquivos, ou quando precisas manipular strings em nível de byte.
+* `rune`: alias para `int32`, representa um ponto de código Unicode. São usados para manipular caracteres Unicode em strings. **Quando usar:** para trabalhar com caracteres, especialmente em strings que podem conter caracteres fora do conjunto ASCII.
+
+Exemplo:
+```go
+var b byte = 'A'        // representa o byte 65
+var r rune = 'あ'      // representa o ponto de código Unicode para o caractere 'あ'
+// para saber o tamanho em bytes de uma string:
+s := "Olá"
+fmt.Println(len(s)) // Output: 5 (O 'á' ocupa 2 bytes em UTF-8)
+// para saber o número de runes (caracteres Unicode) em uma string:
+fmt.Println(utf8.RuneCountInString(s)) // Output: 3
+fmt.Println(len([]rune(s))) // Output: 3
+```
+
 ---
 
 ## Módulo 1.2: Loops e Slices
@@ -191,6 +208,52 @@ func sum(numbers ...int) int {
 }
 totalSum := sum(1, 2, 3, 4, 5) // totalSum = 15
 ```
+
+**Named Returns (opcional)**
+```go
+// Sem named returns (o mais comum)
+func validaComprimento(password string) (bool, string) {
+    if len(password) < 8 {
+        return false, "muito curta"
+    }
+    return true, ""
+}
+
+// Com named returns (útil em funções complexas)
+func validaComprimento(password string) (valida bool, msg string) {
+    if len(password) < 8 {
+        msg = "muito curta"
+        return  // retorna valida=false (zero value), msg="muito curta"
+    }
+    valida = true
+    return  // retorna valida=true, msg="" (zero value)
+}
+```
+
+Quando usar named returns:
+* Funções com muitos returns
+* Documentação mais clara
+* Cuidado: return vazio pode ser confuso
+
+**`nil` em Go**
+Só funciona com tipos específicos:
+```go
+// ✅ Podem ser nil
+var ptr *int = nil // ponteiro
+var slice []int = nil // slice
+var mapa map[string]int = nil // mapa
+var canal chan int = nil // canal (é uma estrutura de dados para comunicação entre goroutines, ou seja, concorrência)
+var funcao func() = nil // função
+var erro error = nil // interface de erro
+var iface interface{} = nil // interface vazia
+
+// ❌ NÃO podem ser nil
+var numero int = nil      // ERRO
+var texto string = nil    // ERRO
+var booleano bool = nil   // ERRO
+var estrutura Pessoa = nil // ERRO
+```
+
 
 ### Error Handling
 Em Go, o tratamento de erros é feito retornando um valor de erro como o último retorno da função. Não há exceções como em outras linguagens.
