@@ -274,3 +274,14 @@ if err != nil {
 }
 fmt.Println("Resultado:", result)
 ```
+
+### Valores vs Referências
+
+* Em Go, tipos básicos (int, float, bool, string) são passados por valor. Arrays também são passados por valor.
+* Slices, maps, channels e ponteiros são passados por referência. Internamente, slices, channels (canais) e maps são estruturas de dados quecontêm ponteiros para os dados subjacentes.
+
+**Regra prática:**
+* Tipos "pequenos" (int, bool, string) → cópia
+* Arrays → cópia (por isso raramente usados)
+* Slices, Maps, Channels → referência (ponteiro interno)
+* Structs → cópia (a não ser que uses *struct)
