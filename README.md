@@ -8,7 +8,7 @@ Este repositório contém materiais de estudo sobre a linguagem de programação
 * **Por quê:** Go tem idiomas próprios (:=, múltiplos returns, defer) que precisam ser naturais
 * **Desafio final:** CLI tool simples
 
-## Fase 2: Ponteiros e Memória
+## [Fase 2: Ponteiros e Memória](MOD2.md)
 
 * Ponteiros, valores vs referências, quando usar cada um
 * **Por quê:** Diferente de Ruby/TS, precisas gerir isto explicitamente
