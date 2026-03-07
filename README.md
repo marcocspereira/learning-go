@@ -8,13 +8,13 @@ Este repositório contém materiais de estudo sobre a linguagem de programação
 * **Por quê:** Go tem idiomas próprios (:=, múltiplos returns, defer) que precisam ser naturais
 * **Desafio final:** CLI tool simples
 
-## [Fase 2: Ponteiros e Memória](MOD2.md)
+## [Fase 2: Ponteiros e Memória; Structs e Métodos](MOD2.md)
 
 * Ponteiros, valores vs referências, quando usar cada um
 * **Por quê:** Diferente de Ruby/TS, precisas gerir isto explicitamente
 * **Desafio final:** Implementar estrutura de dados própria
 
-## Fase 3: Structs, Métodos e Interfaces
+## [Fase 3: Interfaces](MOD3.md)
 
 * OOP em Go, composição vs herança, interfaces implícitas
 * **Por quê:** O coração do design em Go - muito diferente de classes
