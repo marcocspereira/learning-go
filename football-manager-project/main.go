@@ -49,19 +49,19 @@ func main() {
 
 	// Teste 1: criar equipas
 	fmt.Println("=== Criar Equipas ===")
-	benfica, _ := teamRepo.Create(Team{ID: 1, Name: "Benfica", Stadium: "Estádio da Luz", Founded: 1904})
-	porto, _ := teamRepo.Create(Team{ID: 2, Name: "Porto", Stadium: "Estádio do Dragão", Founded: 1893})
+	benfica, _ := teamRepo.Create(Team{Name: "Benfica", Stadium: "Estádio da Luz", Founded: 1904})
+	porto, _ := teamRepo.Create(Team{Name: "Porto", Stadium: "Estádio do Dragão", Founded: 1893})
 	fmt.Printf("Equipas criadas: %v, %v\n", benfica, porto)
 
 	// Teste 2: criar jogadores
 	fmt.Println("=== Criar Jogadores ===")
-	jogador1, _ := playerService.CreatePlayer(Player{ID: 1, Name: "João Silva", Position: "MF", Number: 8, TeamID: benfica.ID})
-	jogador2, _ := playerService.CreatePlayer(Player{ID: 2, Name: "Carlos Pereira", Position: "FW", Number: 9, TeamID: porto.ID})
+	jogador1, _ := playerService.CreatePlayer(Player{Name: "João Silva", Position: "MF", Number: 8, TeamID: benfica.ID})
+	jogador2, _ := playerService.CreatePlayer(Player{Name: "Carlos Pereira", Position: "FW", Number: 9, TeamID: porto.ID})
 	fmt.Printf("Jogadores criados: %v, %v\n", jogador1, jogador2)
 
 	// Teste 3: criar jogadores em equipa inexistente (deve falhar)
 	fmt.Println("=== Criar Jogador em Equipa Inexistente (deve falhar) ===")
-	_, err := playerService.CreatePlayer(Player{ID: 3, Name: "Miguel Santos", Position: "DF", Number: 5, TeamID: 999})
+	_, err := playerService.CreatePlayer(Player{Name: "Miguel Santos", Position: "DF", Number: 5, TeamID: 999})
 	if err != nil {
 		fmt.Printf("Erro esperado ao criar jogador em equipa inexistente: %v\n", err)
 	} else {
