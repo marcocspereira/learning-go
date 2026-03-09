@@ -167,3 +167,241 @@ type StatusRepository interface {
 	FindByMatch(matchID int) ([]PlayerMatchStats, error)
 	FindByPlayer(playerID int) ([]PlayerMatchStats, error)
 }
+
+// Mock implementations em memória (para testes)
+
+type InMemoryPlayerRepo struct {
+	players map[int]Player
+	nextID  int
+}
+
+func NewInMemoryPlayerRepo() *InMemoryPlayerRepo {
+	return &InMemoryPlayerRepo{
+		players: make(map[int]Player),
+		nextID:  1,
+	}
+}
+
+func (repo *InMemoryPlayerRepo) Create(player Player) (Player, error) {
+	if err := player.Validate(); err != nil {
+		return Player{}, err
+	}
+	player.ID = repo.nextID
+	repo.players[repo.nextID] = player
+	repo.nextID++
+	return player, nil
+}
+
+func (repo *InMemoryPlayerRepo) FindByID(id int) (Player, error) {
+	player, exists := repo.players[id]
+	if !exists {
+		return Player{}, fmt.Errorf("Player with ID %d not found", id)
+	}
+	return player, nil
+}
+
+func (repo *InMemoryPlayerRepo) FindByTeam(teamID int) ([]Player, error) {
+	var result []Player
+	for _, player := range repo.players {
+		if player.TeamID == teamID {
+			result = append(result, player)
+		}
+	}
+	if len(result) == 0 {
+		return nil, fmt.Errorf("No players found for TeamID %d", teamID)
+	}
+	return result, nil
+}
+
+func (repo *InMemoryPlayerRepo) Update(player Player) error {
+	if err := player.Validate(); err != nil {
+		return err
+	}
+	_, exists := repo.players[player.ID]
+	if !exists {
+		return fmt.Errorf("Player with ID %d not found", player.ID)
+	}
+	repo.players[player.ID] = player
+	return nil
+}
+
+func (repo *InMemoryPlayerRepo) Delete(id int) error {
+	_, exists := repo.players[id]
+	if !exists {
+		return fmt.Errorf("Player with ID %d not found", id)
+	}
+	delete(repo.players, id)
+	return nil
+}
+
+// InMemoryTeamRepo
+
+type InMemoryTeamRepo struct {
+	teams  map[int]Team
+	nextID int
+}
+
+func NewInMemoryTeamRepo() *InMemoryTeamRepo {
+	return &InMemoryTeamRepo{
+		teams:  make(map[int]Team),
+		nextID: 1,
+	}
+}
+
+func (repo *InMemoryTeamRepo) Create(team Team) (Team, error) {
+	if err := team.Validate(); err != nil {
+		return Team{}, err
+	}
+	team.ID = repo.nextID
+	repo.teams[repo.nextID] = team
+	repo.nextID++
+	return team, nil
+}
+
+func (repo *InMemoryTeamRepo) FindByID(id int) (Team, error) {
+	team, exists := repo.teams[id]
+	if !exists {
+		return Team{}, fmt.Errorf("Team with ID %d not found", id)
+	}
+	return team, nil
+}
+
+func (repo *InMemoryTeamRepo) FindAll() ([]Team, error) {
+	result := make([]Team, 0, len(repo.teams))
+	for _, team := range repo.teams {
+		result = append(result, team)
+	}
+	return result, nil
+}
+
+func (repo *InMemoryTeamRepo) Update(team Team) error {
+	if err := team.Validate(); err != nil {
+		return err
+	}
+	_, exists := repo.teams[team.ID]
+	if !exists {
+		return fmt.Errorf("Team with ID %d not found", team.ID)
+	}
+	repo.teams[team.ID] = team
+	return nil
+}
+
+func (repo *InMemoryTeamRepo) Delete(id int) error {
+	_, exists := repo.teams[id]
+	if !exists {
+		return fmt.Errorf("Team with ID %d not found", id)
+	}
+	delete(repo.teams, id)
+	return nil
+}
+
+// InMemoryMatchRepo
+
+type InMemoryMatchRepo struct {
+	matches map[int]Match
+	nextID  int
+}
+
+func NewInMemoryMatchRepo() *InMemoryMatchRepo {
+	return &InMemoryMatchRepo{
+		matches: make(map[int]Match),
+		nextID:  1,
+	}
+}
+
+func (repo *InMemoryMatchRepo) Create(match Match) (Match, error) {
+	if err := match.Validate(); err != nil {
+		return Match{}, err
+	}
+	match.ID = repo.nextID
+	repo.matches[repo.nextID] = match
+	repo.nextID++
+	return match, nil
+}
+
+func (repo *InMemoryMatchRepo) FindByID(id int) (Match, error) {
+	match, exists := repo.matches[id]
+	if !exists {
+		return Match{}, fmt.Errorf("Match with ID %d not found", id)
+	}
+	return match, nil
+}
+
+func (repo *InMemoryMatchRepo) FindByTeam(teamID int) ([]Match, error) {
+	var result []Match
+	for _, match := range repo.matches {
+		if match.HomeTeamID == teamID || match.AwayTeamID == teamID {
+			result = append(result, match)
+		}
+	}
+	if len(result) == 0 {
+		return nil, fmt.Errorf("No matches found for TeamID %d", teamID)
+	}
+	return result, nil
+}
+
+func (repo *InMemoryMatchRepo) Update(match Match) error {
+	if err := match.Validate(); err != nil {
+		return err
+	}
+	_, exists := repo.matches[match.ID]
+	if !exists {
+		return fmt.Errorf("Match with ID %d not found", match.ID)
+	}
+	repo.matches[match.ID] = match
+	return nil
+}
+
+// InMemoryStatsRepo
+
+type InMemoryStatsRepo struct {
+	stats  map[int]PlayerMatchStats
+	nextID int
+}
+
+func NewInMemoryStatsRepo() *InMemoryStatsRepo {
+	return &InMemoryStatsRepo{
+		stats:  make(map[int]PlayerMatchStats),
+		nextID: 1,
+	}
+}
+
+func (repo *InMemoryStatsRepo) Create(stats PlayerMatchStats) (PlayerMatchStats, error) {
+	if err := stats.Validate(); err != nil {
+		return PlayerMatchStats{}, err
+	}
+	stats.ID = repo.nextID
+	repo.stats[repo.nextID] = stats
+	repo.nextID++
+	return stats, nil
+}
+
+func (repo *InMemoryStatsRepo) FindByMatch(matchID int) ([]PlayerMatchStats, error) {
+	var result []PlayerMatchStats
+	for _, s := range repo.stats {
+		if s.MatchID == matchID {
+			result = append(result, s)
+		}
+	}
+	if len(result) == 0 {
+		return nil, fmt.Errorf("No stats found for MatchID %d", matchID)
+	}
+	return result, nil
+}
+
+func (repo *InMemoryStatsRepo) FindByPlayer(playerID int) ([]PlayerMatchStats, error) {
+	var result []PlayerMatchStats
+	for _, s := range repo.stats {
+		if s.PlayerID == playerID {
+			result = append(result, s)
+		}
+	}
+	if len(result) == 0 {
+		return nil, fmt.Errorf("No stats found for PlayerID %d", playerID)
+	}
+	return result, nil
+}
+
+func main() {
+	fmt.Println("Football Manager - sistema iniciado")
+}
