@@ -71,8 +71,9 @@ func (m Match) Validate() error {
 	if !validStatuses[m.Status] {
 		return fmt.Errorf("Status inválido: %s", m.Status)
 	}
-	if m.MatchDate.Before(time.Now()) && m.Status == "scheduled" {
-		return fmt.Errorf("Partida agendada para data passada")
+	// Validação mais flexível
+	if m.Status == "scheduled" && m.MatchDate.Before(time.Now().Add(-24*time.Hour)) {
+		return fmt.Errorf("partida agendada para data muito passada")
 	}
 	return nil
 }

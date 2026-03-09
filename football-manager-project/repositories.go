@@ -25,7 +25,7 @@ type MatchRepository interface {
 	Update(match Match) error
 }
 
-type StatusRepository interface {
+type StatsRepository interface {
 	Create(stats PlayerMatchStats) (PlayerMatchStats, error)
 	FindByMatch(matchID int) ([]PlayerMatchStats, error)
 	FindByPlayer(playerID int) ([]PlayerMatchStats, error)

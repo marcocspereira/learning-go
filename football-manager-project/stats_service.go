@@ -3,12 +3,12 @@ package main
 import "fmt"
 
 type StatsService struct {
-	statsRepo  StatusRepository
+	statsRepo  StatsRepository
 	playerRepo PlayerRepository
 	matchRepo  MatchRepository
 }
 
-func NewStatsService(statsRepo StatusRepository, playerRepo PlayerRepository, matchRepo MatchRepository) *StatsService {
+func NewStatsService(statsRepo StatsRepository, playerRepo PlayerRepository, matchRepo MatchRepository) *StatsService {
 	return &StatsService{statsRepo: statsRepo, playerRepo: playerRepo, matchRepo: matchRepo}
 }
 
