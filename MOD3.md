@@ -320,3 +320,110 @@ func (e ValidationError) Error() string {
 
 // ValidationError implementa error automaticamente!
 ```
+
+### Problema pointer receiver vs value receiver
+
+```go
+type Notifier interface {
+    Send(msg string) error
+}
+
+type Email struct{}
+
+func (e *Email) Send(msg string) error {  // ← POINTER receiver
+    return nil
+}
+
+func main() {
+    var n Notifier = Email{}  // ❌ ERRO!
+}
+```
+
+**Erro de compilação**:
+```bash
+Email does not implement Notifier (Send method has pointer receiver)
+```
+
+Por quê?
+Em Go:
+
+* Se o method tem pointer receiver `*Email`
+* Apenas `*Email` implementa a interface
+* `Email` (value) NÃO implementa
+
+Regra
+```go
+func (e *Email) Send() error  // só *Email implementa interface
+func (e Email) Send() error   // Email e *Email implementam interface
+```
+
+Soluções
+```go
+// Solução 1: Usar ponteiro (mais comum)
+var n Notifier = &Email{}  // ✅ OK
+
+// Solução 2: Mudar para value receiver
+func (e Email) Send(msg string) error {  // sem *
+    return nil
+}
+var n Notifier = Email{}  // ✅ OK
+```
+
+|Method Receiver|`*Email{}` implementa? |`&Email{}` implementa?|
+|-----------------|--------------------|--------------------|
+|`(e Email)`      | ✅ SIM             | ✅ SIM              |
+|`(e *Email)`     | ❌ NÃO             | ✅ SIM              |
+
+Resumo:
+* Value receiver é mais flexível (funciona com ambos).
+* Pointer receiver é necessário se o method modifica o struct ou se a struct é grande.
+
+🎓 Resumo - Quando Usar Cada Um
+* Value Receiver (t Type)
+* ✅ Usa quando:
+  * Method só lê dados (não modifica)
+  * Struct é pequena (poucos campos, tipos primitivos)
+* Quer que value e pointer implementem interface
+
+* ❌ NÃO usa quando:
+  * Method modifica a struct
+  * Struct é grande (cópia custosa)
+  * Struct tem mutex ou channels
+
+Memorizar:
+
+* Pointer receiver → Só &Type{} implementa interface
+* Value receiver → Ambos implementam interface
+
+💡 Por Quê Esta Diferença?
+
+Chamar method diretamente:
+```go
+f := File{Name: "test"}
+f.Read()  // Go pode fazer &f automaticamente (sabe o endereço)
+```
+Go sabe onde está `f` na memória, pode criar ponteiro.
+
+Atribuir a interface:
+```go
+var r Reader = File{Name: "test"}  // ❌
+```
+
+* Quando crias `File{}`, é um valor temporário. Go não consegue criar ponteiro para algo temporário que vai desaparecer!
+* Tecnicamente: Interfaces armazenam um ponteiro para o valor. Se o method precisa de `*File`, a interface precisa de `*File`.
+
+Value receiver → flexível
+```go
+func (e Email) Send(msg string) error { ... }
+
+var n1 Notifier = Email{}   // ✅
+var n2 Notifier = &Email{}  // ✅
+```
+
+ Pointer receiver → só ponteiro
+ ```go
+ func (e *Email) Send(msg string) error { ... }
+
+var n1 Notifier = Email{}   // ❌
+var n2 Notifier = &Email{}  // ✅
+ ```
