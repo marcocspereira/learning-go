@@ -20,13 +20,13 @@ Este repositório contém materiais de estudo sobre a linguagem de programação
 * **Por quê:** O coração do design em Go - muito diferente de classes
 * **Desafio final:** Sistema com múltiplos tipos interagindo
 
-## Fase 4: Error Handling e Panic
+## [Fase 4: Error Handling e Panic](MOD4.md)
 
 * Padrão if err != nil, erros custom, quando panic
 * **Por quê:** Sem try/catch - precisas pensar diferente
 * **Desafio final:** Função robusta com múltiplos cenários de erro
 
-## Fase 5: Concorrência - Goroutines
+## [Fase 5: Concorrência - Goroutines](MOD5.md)
 
 * Goroutines, channels, select, patterns
 * **Por quê:** A killer feature do Go, mas fácil de fazer mal
